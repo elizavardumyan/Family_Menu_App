@@ -1,0 +1,192 @@
+============================================================
+                FAMILY MENU APP
+                 PRODUCT ROADMAP
+============================================================
+
+VISION
+------------------------------------------------------------
+Build a multilingual family meal planning platform that
+helps families organize meals, reduce food waste,
+save money, and simplify grocery shopping.
+
+============================================================
+PROJECT INFORMATION
+============================================================
+
+Project Name : Family Menu App
+Founder      : Eliza Vardumyan
+Started      : July 2026
+Current Version : 1.1
+Database      : PostgreSQL
+Backend       : FastAPI (planned)
+Frontend      : Flutter (planned)
+
+============================================================
+VERSION 1.0 - FOUNDATION
+Status: COMPLETED
+============================================================
+
+Goal
+Build a reliable database and development environment.
+
+Database
+✓ PostgreSQL installed
+✓ Database created
+✓ Schema designed
+✓ Relationships created
+✓ Multilingual architecture
+
+Reference Data
+✓ Languages
+✓ Product Groups
+✓ Units
+✓ Recipe Categories
+✓ Recipe Tags
+
+Development Environment
+✓ Folder Structure
+✓ Documentation
+✓ SQL Standards
+✓ Naming Conventions
+
+
+============================================================
+VERSION 1.1 - PRODUCT CATALOG
+Status: COMPLETED
+============================================================
+
+Goal
+Create the master product database.
+
+Master Data
+✓ Products_Master.xlsx
+✓ Product translations
+✓ Product prices
+✓ Product validation
+
+Import
+✓ CSV import process
+✓ PostgreSQL synchronization
+✓ Automatic product updates
+
+
+============================================================
+VERSION 1.2 - RECIPE MANAGEMENT
+Status: PLANNED
+============================================================
+
+Goal
+Store and manage recipes.
+
+Recipes
+□ Recipes_Master.xlsx
+□ Recipe translations
+□ Recipe categories
+□ Recipe tags
+□ Recipe ingredients
+□ Recipe images (optional)
+
+Database
+□ Import recipes
+□ Import recipe ingredients
+
+
+============================================================
+VERSION 1.3 - MEAL PLANNING
+Status: PLANNED
+============================================================
+
+Goal
+Plan meals for the whole week.
+
+Features
+□ Weekly planner
+□ Daily planner
+□ Combo meals
+□ Favorite menus
+□ Weekly shopping calculation
+
+
+============================================================
+VERSION 1.4 - SHOPPING ASSISTANT
+Status: PLANNED
+============================================================
+
+Goal
+Automatically generate shopping lists.
+
+Features
+□ Shopping list generation
+□ Ingredient aggregation
+□ Price calculation
+□ Estimated shopping cost
+□ Pantry inventory (future)
+
+
+============================================================
+VERSION 2.0 - MOBILE APPLICATION
+Status: PLANNED
+============================================================
+
+Backend
+□ FastAPI Backend
+□ Authentication
+□ User Accounts
+
+Frontend
+□ Flutter Application
+□ Multilingual Interface
+□ User Profiles
+
+
+============================================================
+VERSION 2.5 - SMART FEATURES
+Status: PLANNED
+============================================================
+
+□ Budget Analysis
+□ Nutrition Information
+□ Price History
+□ Favorite Recipes
+□ Statistics Dashboard
+□ Seasonal Menu Suggestions
+□ Product Search
+
+
+============================================================
+VERSION 3.0 - BUSINESS GROWTH
+Status: PLANNED
+============================================================
+
+Launch
+□ Beta Testing
+□ Public Release
+□ User Feedback
+□ Continuous Improvements
+
+Business
+□ Armenian Market
+□ English Localization
+□ Russian Localization
+□ Premium Features
+□ Business Partnerships
+□ Google Play Release
+□ Apple App Store Release
+
+
+============================================================
+LONG-TERM GOAL
+============================================================
+
+Create the leading multilingual family meal planning
+platform that helps families plan meals, manage grocery
+shopping, reduce food waste, and save household costs.
+
+Founder:
+Eliza Vardumyan
+
+Phase 2 — Database Import
+
+✅ Products
+✅ Recipes
+✅ Recipe Ingredients

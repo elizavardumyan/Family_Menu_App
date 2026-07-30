@@ -1,0 +1,82 @@
+﻿product_code,group_code,unit_code,unit_price,product_name_hy,product_name_en
+adjarian_dough,bakery,pcs,210,Աջարականի խմոր,Adjarian Dough
+apple,fruits,kg,300,Խնձոր,Apple
+arabica_coffee,beverages,box,550,Սուրճ արաբիկա,Arabica coffee
+avocado,vegetables,pcs,580,Ավոկադո,Avocado
+baguette,bakery,pcs,160,Հաց բագետ,Baguette
+baking_powder,groceries,box,150,Փխրեցուցիչ,Baking powder
+banana,fruits,kg,550,Բանան,Banana
+baton_bread,bakery,pcs,90,Հաց բատոն,Baton bread
+beef_burger_patty,meat_fish_poultry,pcs,200,Տավարի բուրգերի կոտլետ,Beef Burger Patty
+beetroot,vegetables,kg,250,Բազուկ,Beetroot
+bologna_sausage,sausages,kg,1990,Երշիկ բժշկական,Bologna sausage
+borodinsky_bread,bakery,pcs,400,Հաց բորոդինյան,Borodinsky bread
+bread,bakery,pcs,120,Հաց,Bread
+broccoli,vegetables,kg,500,Բրոկոլի,Broccoli
+buckwheat,groceries,kg,400,Հնդկաձավար,Buckwheat
+burger_bun,bakery,pcs,100,Բուրգերի Հացիկ,Burger Bun
+butter,dairy_eggs,kg,6250,Կարագ,Butter
+cabbage,vegetables,kg,250,Կաղամբ,Cabbage
+caesar_dressing,sauces,box,250,Սոուս ցեզար,Caesar dressing
+carrot,vegetables,kg,350,Գազար,Carrot
+cauliflower,vegetables,kg,600,Ծաղկակաղամբ,Cauliflower
+chanakh_cheese,dairy_eggs,kg,1540,Պանիր չանախ,Chanakh cheese
+cheddar_cheese,dairy_eggs,kg,3900,Պանիր չեդեր,Cheddar cheese
+cherry_tomato,vegetables,kg,2550,Լոլիկ չերի,Cherry tomato
+chicken_burger_patty,meat_fish_poultry,pcs,150,Հավի բուրգերի կոտլետ,Chicken Burger Patty
+chicken_egg,dairy_eggs,pcs,70,Ձու հավի,Chicken egg
+chicken_meat,meat_fish_poultry,kg,1400,Հավի միս,Chicken meat
+chickpeas,groceries,kg,1000,Սիսեռ,Chickpeas
+chocolate_cereal_balls,groceries,pcs,800,Շոկոլադե գնդիկներ,Chocolate cereal balls
+ciabatta,bakery,pcs,160,Չիաբատա,Ciabatta
+corn,canned_food,box,470,Եգիպտացորեն,Corn
+cornflakes,groceries,kg,1650,Եգիպտացորենի փաթիլներ,Cornflakes
+cottage_cheese,dairy_eggs,box,600,Կաթնաշոռ,Cottage cheese
+cucumber,vegetables,kg,650,Վարունգ,Cucumber
+fish,meat_fish_poultry,kg,3300,Ձուկ,Fish
+flour,groceries,kg,200,Ալյուր,Flour
+garlic,vegetables,clove,50,Սխտոր,Garlic
+gata,bakery,pcs,700,Գաթա,Gata
+groats,groceries,kg,500,Ձավար,Groats
+herbs,greens,bunch,250,Կանաչի,Herbs
+hummus,ready_meals,box,700,Հումուս,Hummus
+ketchup,sauces,box,650,Լոլիկի Կետչուպ,Tomato Ketchup
+kiwi,fruits,kg,1060,Կիվի,Kiwi
+korean_salad,ready_meals,box,450,Կորեական աղցան,Korean salad
+lavash,bakery,pcs,230,Lավաշ,Lavash
+lemon,fruits,pcs,150,Կիտրոն,Lemon
+lettuce,greens,bunch,400,Հազար,Lettuce
+lori_cheese,dairy_eggs,kg,3000,Պանիր լոռի,Lori cheese
+matsoni,dairy_eggs,kg,400,Մածուն,Matsoni
+meat,meat_fish_poultry,kg,4500,Միս,Meat
+milk,dairy_eggs,liter,550,Կաթ,Milk
+mozzarella_cheese,dairy_eggs,kg,3500,Պանիր մոցարելա,Mozzarella cheese
+mushroom,vegetables,kg,1500,Սունկ,Mushroom
+oats,groceries,box,480,Վարսակ,Oats
+onion,vegetables,kg,300,Սոխ,Onion
+orange,fruits,kg,500,Նարինջ,Orange
+paprika,spices,kg,1200,Քաղցր պղպեղ աղացած,Paprika
+pasta,groceries,box,590,Մակարոն,Pasta
+pasuts_dolma,ready_meals,pcs,500,Պասուց դոլմա,Pasuts dolma
+pizza_dough,bakery,pcs,300,Պիցցայի խմոր,Pizza dough
+pomegranate,fruits,pcs,1000,Նուռ,Pomegranate
+potato,vegetables,kg,180,Կարտոֆիլ,Potato
+red_lentils,groceries,kg,1500,Կարմիր ոսպ,Red Lentils
+rice,groceries,kg,740,Բրինձ,Rice
+robusta_coffee,beverages,box,650,Սուրճ ռոբուստա,Robusta coffee
+salt,spices,kg,150,Աղ,Salt
+semolina,groceries,kg,700,Սպիտակաձավար,Semolina
+sliced_olives,canned_food,box,600,Ձիթապտուղ կտրատած,Sliced olives
+sour_cream,dairy_eggs,box,710,Թթվասեր,Sour cream
+spaghetti,groceries,box,700,Սպագետի,Spaghetti
+spanish_sausage,sausages,kg,3590,Երշիկ իսպանական,Spanish sausage
+sugar,groceries,kg,410,Շաքարավազ,Sugar
+tomato,vegetables,kg,400,Լոլիկ,Tomato
+tomato_paste,sauces,box,610,Տոմատ,Tomato paste
+trout,meat_fish_poultry,kg,3300,Իշխան,Trout
+vegetable_oil,groceries,liter,750,Բուսական յուղ,Vegetable oil
+vermicelli,groceries,kg,700,Վերմիշել,Vermicelli
+walnut,nuts,pcs,10,Ընկույզ,Walnut
+water,beverages,liter,150,Ջուր,Water
+whole_chicken,meat_fish_poultry,kg,1300,Հավ ամբողջական,Whole chicken
+zucchini,vegetables,kg,350,Դդմիկ,Zucchini

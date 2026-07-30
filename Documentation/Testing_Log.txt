@@ -1,0 +1,49 @@
+Testing Log
+Project: Family Menu App
+
+Completed Tests
+---------------
+✅ Product import - Insert functionality tested
+✅ Product import - Update functionality tested
+
+Pending Tests
+-------------
+⬜ Delete functionality
+⬜ Recipe import testing
+⬜ Recipe update testing
+⬜ Shopping list generation
+⬜ Weekly menu generation
+
+Notes
+-----
+• Insert creates a new product when the product_code does not exist.
+• Update modifies the existing product when the same product_code already exists.
+• The import process uses ON CONFLICT (product_code) DO UPDATE.
+• Duplicate products are not created.
+
+===========================================================
+Recipe Import Test
+Date: 2026-07-21
+===========================================================
+
+Test Objective
+Verify successful import of recipe data from CSV into PostgreSQL.
+
+Source
+Recipes_Master.xlsx
+recipes.csv
+
+Results
+
+Staging rows..................55
+Production recipes...........55
+Armenian translations........55
+English translations.........55
+
+Outcome
+
+PASS
+
+All recipes imported successfully.
+All translations imported successfully.
+No data loss detected.

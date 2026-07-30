@@ -1,0 +1,43 @@
+Product Update Workflow
+
+Purpose: Update existing products or add new products to the Family Menu
+App database.
+
+Add a New Product
+
+1.  Open Products_Master.xlsx.
+2.  Add a new row.
+3.  Save the Excel file.
+4.  Export as products.csv (CSV UTF-8).
+5.  Run 10_clear_product_import.sql.
+6.  Import products.csv into the product_import table using pgAdmin.
+7.  Run 09_import_products_from_csv.sql.
+8.  Verify the product in:
+    -   products
+    -   product_translations
+
+Update an Existing Product
+
+1.  Open Products_Master.xlsx.
+2.  Modify the existing row.
+3.  Keep product_code unchanged.
+4.  Save the Excel file.
+5.  Export as products.csv (CSV UTF-8).
+6.  Run 10_clear_product_import.sql.
+7.  Import products.csv into product_import.
+8.  Run 09_import_products_from_csv.sql.
+9.  Verify the changes.
+
+Important Rules
+
+-   product_code must never change for an existing product.
+-   Always run 10_clear_product_import.sql before importing a new CSV.
+-   Import the CSV only once.
+-   The script uses ON CONFLICT (product_code) DO UPDATE.
+-   Existing products are updated; duplicate products are not created.
+
+Verification Query
+
+SELECT p.product_code, p.unit_price, pt.language_code, pt.product_name
+FROM products AS p JOIN product_translations AS pt ON pt.product_id =
+p.product_id WHERE p.product_code = ‘ketchup’ ORDER BY pt.language_code;

@@ -1,0 +1,13 @@
+1. Every product has exactly one base unit.
+
+2. Prices are stored using the product's base unit.
+
+3. Recipes may use different units.
+
+4. Unit conversions are handled by the application.
+
+5. Product codes are lowercase with underscores.
+
+6. Recipe codes are lowercase with underscores.
+
+7. All master data is entered through validated Excel tables.

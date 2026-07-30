@@ -1,0 +1,146 @@
+===========================================================
+Family Menu App
+CHANGELOG
+Founder: Eliza Vardumyan
+===========================================================
+
+Version: 0.1
+Date: 2026-07-10
+
+Project Started
+
+Completed:
+- Created project folder structure.
+- Installed PostgreSQL.
+- Installed pgAdmin.
+- Created the "family_menu" database.
+- Learned how to connect to PostgreSQL using pgAdmin.
+- Created the first SQL script (01_create_core_tables.sql).
+- Designed the core database architecture.
+- Decided to use "Products" instead of "Ingredients" for better scalability.
+- Decided to support multiple languages from the beginning.
+- Created the core database tables successfully.
+
+Next Steps:
+- Insert languages.
+- Insert product groups.
+- Insert units.
+- Design recipe tables.
+
+-----------------------------------------------------------
+
+===========================================================
+Version: 0.2
+Date: 2026-07-13
+===========================================================
+
+Completed
+
+✓ Designed complete Recipe Module
+✓ Created Recipe Categories
+✓ Created Recipe Tags
+✓ Created Recipe Translations
+✓ Created Product-Recipe relationships
+✓ Added multilingual architecture to recipes
+✓ Implemented many-to-many relationships
+✓ Continued using professional SQL conventions
+
+Current database
+
+16 tables
+
+Next
+
+- Insert Languages
+- Insert Product Groups
+- Insert Units
+- Insert Recipe Categories
+- Insert Recipe Tags
+- Insert Products
+
+
+Version: 0.3
+
+Changed:
+- Updated recipe_products table.
+- Added unit_id foreign key.
+- Added recipe_product_id as the primary key.
+
+===========================================================
+Version: 0.4
+Date: 2026-07-20
+===========================================================
+
+Completed
+
+✓ Reorganized the project data structure.
+✓ Renamed Products_Master.xlsx to Family_Menu_Master.xlsx.
+✓ Created a centralized master workbook for all application data.
+✓ Added Products_Master worksheet.
+✓ Added Recipes_Master worksheet.
+✓ Added Recipe_Ingredients_Master worksheet.
+✓ Added Lookup_Lists worksheet.
+✓ Created Excel tables for all worksheets.
+✓ Standardized table naming conventions.
+✓ Designed the master data architecture for recipes and ingredients.
+✓ Created the Recipes_Master structure.
+✓ Added recipe_code, Armenian and English recipe names.
+✓ Standardized Armenian recipe names.
+✓ Set default base_servings for recipes.
+✓ Defined the Excel → CSV → PostgreSQL import workflow.
+
+Current Status
+
+Database
+- Core schema completed.
+- Product import pipeline completed.
+- Recipe import pipeline prepared.
+
+Excel
+- Master workbook structure completed.
+- Products_Master completed.
+- Recipes_Master initialized.
+- Lookup tables completed.
+
+Next Steps
+
+- Populate Recipe_Ingredients_Master.
+- Export recipes.csv.
+- Test recipe import into PostgreSQL.
+- Begin recipe ingredient import pipeline.
+
+
+===========================================================
+Version: 0.4.1
+Date: 2026-07-21
+===========================================================
+
+Completed
+
+✓ Created Recipe_Ingredients_Master.
+✓ Added workbook-level named ranges for data validation.
+✓ Implemented dropdown validation for recipe_code, product_code, and unit_code.
+✓ Added duplicate detection for master data.
+✓ Entered and validated Breakfast recipes.
+✓ Entered and validated Lunch and Dinner recipes.
+✓ Added missing products discovered during recipe migration.
+✓ Exported Recipes_Master to CSV.
+✓ Imported recipes into PostgreSQL.
+✓ Verified recipe data and translations successfully.
+
+Testing Results
+
+✓ Staging rows: 55
+✓ Production recipes: 55
+✓ Armenian translations: 55
+✓ English translations: 55
+✓ No missing translations.
+✓ Recipe import completed successfully.
+
+Next Steps
+
+- Export Recipe_Ingredients_Master to CSV.
+- Import recipe ingredients into PostgreSQL.
+- Verify recipe-product relationships.
+- Build shopping-list queries.
+- Build recipe cost queries.
