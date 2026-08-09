@@ -1,0 +1,17 @@
+# Python virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables / passwords
+.env
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
