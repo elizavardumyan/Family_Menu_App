@@ -22,7 +22,8 @@ class RecipeListItem(BaseModel):
     recipe_name_en: str | None
     recipe_name_hy: str | None
 
-
+  
 class RecipeDetail(RecipeListItem):
+    recipe_cost: int
     categories: list[CategoryResponse]
     ingredients: list[IngredientResponse]

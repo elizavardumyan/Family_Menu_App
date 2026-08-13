@@ -1,12 +1,12 @@
 from fastapi import APIRouter, HTTPException
 
 from ..database import get_connection
-from ..schemas.recipes import RecipeListItem, RecipeDetail
+from ..schemas.recipes import RecipeDetail, RecipeListItem
 
 
 router = APIRouter(
     prefix="/recipes",
-    tags=["recipes"]
+    tags=["recipes"],
 )
 
 
@@ -46,7 +46,7 @@ def get_recipes():
             "recipe_code": row[1],
             "base_servings": row[2],
             "recipe_name_en": row[3],
-            "recipe_name_hy": row[4]
+            "recipe_name_hy": row[4],
         }
         for row in rows
     ]
@@ -86,7 +86,7 @@ def get_recipe(recipe_id: int):
             if recipe is None:
                 raise HTTPException(
                     status_code=404,
-                    detail="Recipe not found"
+                    detail="Recipe not found",
                 )
 
             # 2. Get recipe categories
@@ -116,7 +116,22 @@ def get_recipe(recipe_id: int):
 
             category_rows = cur.fetchall()
 
-            # 3. Get recipe ingredients
+            # 3. Calculate recipe cost
+            cur.execute("""
+                SELECT
+                    COALESCE(
+                        ROUND(SUM(rp.quantity * p.unit_price)),
+                        0
+                    )::int
+                FROM recipe_products AS rp
+                JOIN products AS p
+                    ON p.product_id = rp.product_id
+                WHERE rp.recipe_id = %s;
+            """, (recipe_id,))
+
+            recipe_cost = cur.fetchone()[0]
+
+            # 4. Get recipe ingredients
             cur.execute("""
                 SELECT
                     p.product_code,
@@ -154,24 +169,23 @@ def get_recipe(recipe_id: int):
         "base_servings": recipe[2],
         "recipe_name_en": recipe[3],
         "recipe_name_hy": recipe[4],
-
+        "recipe_cost": recipe_cost,
         "categories": [
             {
                 "category_code": row[0],
                 "category_name_en": row[1],
-                "category_name_hy": row[2]
+                "category_name_hy": row[2],
             }
             for row in category_rows
         ],
-
         "ingredients": [
             {
                 "product_code": row[0],
                 "ingredient_name_en": row[1],
                 "ingredient_name_hy": row[2],
                 "quantity": row[3],
-                "unit_code": row[4]
+                "unit_code": row[4],
             }
             for row in ingredient_rows
-        ]
+        ],
     }
