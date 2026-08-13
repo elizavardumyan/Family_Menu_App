@@ -9,67 +9,75 @@ router = APIRouter(
     tags=["recipes"],
 )
 
-
 @router.get("", response_model=list[RecipeListItem])
-def get_recipes(category: str | None = None):
+def get_recipes(
+    category: str | None = None,
+    search: str | None = None,
+):
     with get_connection() as conn:
         with conn.cursor() as cur:
 
+            query = """
+                SELECT
+                    r.recipe_id,
+                    r.recipe_code,
+                    r.base_servings,
+                    MAX(CASE
+                        WHEN rt.language_code = 'en'
+                        THEN rt.recipe_name
+                    END) AS recipe_name_en,
+                    MAX(CASE
+                        WHEN rt.language_code = 'hy'
+                        THEN rt.recipe_name
+                    END) AS recipe_name_hy
+                FROM recipes AS r
+                LEFT JOIN recipe_translations AS rt
+                    ON rt.recipe_id = r.recipe_id
+            """
+
+            conditions = []
+            params = []
+
             if category:
-                cur.execute("""
-                    SELECT
-                        r.recipe_id,
-                        r.recipe_code,
-                        r.base_servings,
-                        MAX(CASE
-                            WHEN rt.language_code = 'en'
-                            THEN rt.recipe_name
-                        END) AS recipe_name_en,
-                        MAX(CASE
-                            WHEN rt.language_code = 'hy'
-                            THEN rt.recipe_name
-                        END) AS recipe_name_hy
-                    FROM recipes AS r
-                    LEFT JOIN recipe_translations AS rt
-                        ON rt.recipe_id = r.recipe_id
+                query += """
                     JOIN recipe_category_assignments AS rca
                         ON rca.recipe_id = r.recipe_id
                     JOIN recipe_categories AS rc
                         ON rc.category_id = rca.category_id
-                    WHERE rc.category_code = %s
-                    GROUP BY
-                        r.recipe_id,
-                        r.recipe_code,
-                        r.base_servings
-                    ORDER BY
-                        r.recipe_id;
-                """, (category,))
+                """
 
-            else:
-                cur.execute("""
-                    SELECT
-                        r.recipe_id,
-                        r.recipe_code,
-                        r.base_servings,
-                        MAX(CASE
-                            WHEN rt.language_code = 'en'
-                            THEN rt.recipe_name
-                        END) AS recipe_name_en,
-                        MAX(CASE
-                            WHEN rt.language_code = 'hy'
-                            THEN rt.recipe_name
-                        END) AS recipe_name_hy
-                    FROM recipes AS r
-                    LEFT JOIN recipe_translations AS rt
-                        ON rt.recipe_id = r.recipe_id
-                    GROUP BY
-                        r.recipe_id,
-                        r.recipe_code,
-                        r.base_servings
-                    ORDER BY
-                        r.recipe_id;
+                conditions.append("rc.category_code = %s")
+                params.append(category)
+
+            if search:
+                conditions.append("""
+                    (
+                        r.recipe_code ILIKE %s
+                        OR EXISTS (
+                            SELECT 1
+                            FROM recipe_translations AS search_rt
+                            WHERE search_rt.recipe_id = r.recipe_id
+                              AND search_rt.recipe_name ILIKE %s
+                        )
+                    )
                 """)
 
+                search_value = f"%{search}%"
+                params.extend([search_value, search_value])
+
+            if conditions:
+                query += " WHERE " + " AND ".join(conditions)
+
+            query += """
+                GROUP BY
+                    r.recipe_id,
+                    r.recipe_code,
+                    r.base_servings
+                ORDER BY
+                    r.recipe_id;
+            """
+
+            cur.execute(query, params)
             rows = cur.fetchall()
 
     return [
