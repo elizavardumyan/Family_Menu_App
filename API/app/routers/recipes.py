@@ -57,7 +57,7 @@ def get_recipe(recipe_id: int):
     with get_connection() as conn:
         with conn.cursor() as cur:
 
-            # Get recipe information
+            # 1. Get recipe information
             cur.execute("""
                 SELECT
                     r.recipe_id,
@@ -89,7 +89,34 @@ def get_recipe(recipe_id: int):
                     detail="Recipe not found"
                 )
 
-            # Get recipe ingredients
+            # 2. Get recipe categories
+            cur.execute("""
+                SELECT
+                    rc.category_code,
+                    MAX(CASE
+                        WHEN rct.language_code = 'en'
+                        THEN rct.category_name
+                    END) AS category_name_en,
+                    MAX(CASE
+                        WHEN rct.language_code = 'hy'
+                        THEN rct.category_name
+                    END) AS category_name_hy
+                FROM recipe_category_assignments AS rca
+                JOIN recipe_categories AS rc
+                    ON rc.category_id = rca.category_id
+                LEFT JOIN recipe_category_translations AS rct
+                    ON rct.category_id = rc.category_id
+                WHERE rca.recipe_id = %s
+                GROUP BY
+                    rc.category_id,
+                    rc.category_code
+                ORDER BY
+                    rc.category_code;
+            """, (recipe_id,))
+
+            category_rows = cur.fetchall()
+
+            # 3. Get recipe ingredients
             cur.execute("""
                 SELECT
                     p.product_code,
@@ -127,6 +154,16 @@ def get_recipe(recipe_id: int):
         "base_servings": recipe[2],
         "recipe_name_en": recipe[3],
         "recipe_name_hy": recipe[4],
+
+        "categories": [
+            {
+                "category_code": row[0],
+                "category_name_en": row[1],
+                "category_name_hy": row[2]
+            }
+            for row in category_rows
+        ],
+
         "ingredients": [
             {
                 "product_code": row[0],
