@@ -1,3 +1,4 @@
+from typing import Literal
 from fastapi import APIRouter, HTTPException, Query
 
 from ..database import get_connection
@@ -15,6 +16,7 @@ def get_recipes(
     search: str | None = None,
     limit: int = Query(default=20, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
+    sort: Literal["id", "name"] = "id",
 ):
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -69,14 +71,19 @@ def get_recipes(
 
             if conditions:
                 query += " WHERE " + " AND ".join(conditions)
-
-            query += """
+            
+            if sort == "name":
+                order_by = "recipe_name_en"
+            else:
+                order_by = "r.recipe_id"       
+                       
+            query += f"""
                 GROUP BY
                     r.recipe_id,
                     r.recipe_code,
                     r.base_servings
                 ORDER BY
-                    r.recipe_id
+                    {order_by}
                 LIMIT %s
                 OFFSET %s;
             """  
