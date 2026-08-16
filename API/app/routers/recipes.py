@@ -13,6 +13,8 @@ router = APIRouter(
 def get_recipes(
     category: str | None = None,
     search: str | None = None,
+    limit: int = 20,
+    offset: int = 0,
 ):
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -74,8 +76,13 @@ def get_recipes(
                     r.recipe_code,
                     r.base_servings
                 ORDER BY
-                    r.recipe_id;
-            """
+                    r.recipe_id
+                LIMIT %s
+                OFFSET %s;
+            """  
+            
+            params.extend([limit, offset])
+            
 
             cur.execute(query, params)
             rows = cur.fetchall()
