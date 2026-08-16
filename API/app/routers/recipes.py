@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 
 from ..database import get_connection
 from ..schemas.recipes import RecipeDetail, RecipeListItem
@@ -13,8 +13,8 @@ router = APIRouter(
 def get_recipes(
     category: str | None = None,
     search: str | None = None,
-    limit: int = 20,
-    offset: int = 0,
+    limit: int = Query(default=20, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
 ):
     with get_connection() as conn:
         with conn.cursor() as cur:
