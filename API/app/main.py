@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from .routers.recipes import router as recipes_router
 from .routers.shopping_list import router as shopping_list_router
+from .routers.menu import router as menu_router
 
 
 app = FastAPI(
@@ -17,3 +18,4 @@ def root():
 
 app.include_router(recipes_router)
 app.include_router(shopping_list_router)
+app.include_router(menu_router)
