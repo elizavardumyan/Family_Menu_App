@@ -1,34 +1,46 @@
+from decimal import Decimal
 from ..database import get_connection
 
 
-def build_shopping_list(recipe_counts: dict[int, int]):
+def build_shopping_list(
+    recipe_counts: dict[int, int],
+    servings: int = 5,
+):
     recipe_ids = list(recipe_counts.keys())
 
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute("""
+            cur.execute("""                 
                 SELECT
                     rp.recipe_id,
                     rp.product_id,
                     rp.unit_id,
-                    rp.quantity
+                    rp.quantity,
+                    r.base_servings
                 FROM recipe_products AS rp
+                JOIN recipes AS r
+                    ON r.recipe_id = rp.recipe_id
                 WHERE rp.recipe_id = ANY(%s);
+                                    
+
             """, (recipe_ids,))
 
             ingredient_rows = cur.fetchall()
 
             totals = {}
 
-            for recipe_id, product_id, unit_id, quantity in ingredient_rows:
+                        
+            for recipe_id, product_id, unit_id, quantity, base_servings in ingredient_rows:
                 count = recipe_counts[recipe_id]
+
+                serving_factor = Decimal(servings) / Decimal(base_servings)    
 
                 key = (product_id, unit_id)
 
                 if key not in totals:
-                    totals[key] = 0
+                    totals[key] = Decimal("0")
 
-                totals[key] += quantity * count
+                totals[key] += quantity * count * serving_factor
 
             items = []
 

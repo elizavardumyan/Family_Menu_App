@@ -10,4 +10,5 @@ class DayMenu(BaseModel):
 
 
 class WeeklyMenuRequest(BaseModel):
+    servings: int = 5
     days: list[DayMenu]

@@ -82,7 +82,11 @@ def create_weekly_menu(request: WeeklyMenuRequest):
                 result.append(day_result)
 
     
-    shopping_list = build_shopping_list(recipe_counts)
+    shopping_list = build_shopping_list(
+        recipe_counts,
+        request.servings,
+    )
+    
 
     return { 
         "days": result,
