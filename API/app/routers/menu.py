@@ -15,11 +15,26 @@ router = APIRouter(
 def create_weekly_menu(request: WeeklyMenuRequest):
     result = []
     recipe_counts = {}
-    
 
     with get_connection() as conn:
         with conn.cursor() as cur:
 
+            # 1. Create weekly menu
+            cur.execute("""
+                INSERT INTO weekly_menus (
+                    week_start_date,
+                    servings
+                )
+                VALUES (%s, %s)
+                RETURNING weekly_menu_id;
+            """, (
+                request.week_start_date,
+                request.servings,
+            ))
+
+            weekly_menu_id = cur.fetchone()[0]
+
+            # 2. Process each day
             for day in request.days:
                 day_result = {
                     "day": day.day,
@@ -39,10 +54,12 @@ def create_weekly_menu(request: WeeklyMenuRequest):
                 for meal_type, recipe_id in meal_slots.items():
                     if recipe_id is None:
                         continue
-                    
-                    recipe_counts[recipe_id] = recipe_counts.get(recipe_id, 0) + 1
-                    
 
+                    recipe_counts[recipe_id] = (
+                        recipe_counts.get(recipe_id, 0) + 1
+                    )
+
+                    # 3. Check recipe and get names
                     cur.execute("""
                         SELECT
                             r.recipe_id,
@@ -72,6 +89,22 @@ def create_weekly_menu(request: WeeklyMenuRequest):
                             detail=f"Recipe {recipe_id} not found",
                         )
 
+                    # 4. Save meal
+                    cur.execute("""
+                        INSERT INTO weekly_menu_items (
+                            weekly_menu_id,
+                            day_of_week,
+                            meal_type,
+                            recipe_id
+                        )
+                        VALUES (%s, %s, %s, %s);
+                    """, (
+                        weekly_menu_id,
+                        day.day,
+                        meal_type,
+                        recipe_id,
+                    ))
+
                     day_result[meal_type] = {
                         "recipe_id": recipe[0],
                         "recipe_code": recipe[1],
@@ -81,15 +114,93 @@ def create_weekly_menu(request: WeeklyMenuRequest):
 
                 result.append(day_result)
 
-    
+    # 5. Build shopping list
     shopping_list = build_shopping_list(
         recipe_counts,
         request.servings,
     )
-    
 
-    return { 
+    return {
+        "weekly_menu_id": weekly_menu_id,
+        "week_start_date": request.week_start_date,
+        "servings": request.servings,
         "days": result,
         "shopping_list": shopping_list["items"],
         "total_cost": shopping_list["total_cost"],
+    }
+@router.get("/{weekly_menu_id}")
+def get_weekly_menu(weekly_menu_id: int):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+
+            # 1. Get weekly menu
+            cur.execute("""
+                SELECT
+                    weekly_menu_id,
+                    week_start_date,
+                    servings,
+                    created_at
+                FROM weekly_menus
+                WHERE weekly_menu_id = %s;
+            """, (weekly_menu_id,))
+
+            weekly_menu = cur.fetchone()
+
+            if weekly_menu is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Weekly menu {weekly_menu_id} not found",
+                )
+
+            # 2. Get saved meals
+            cur.execute("""
+                SELECT
+                    wmi.day_of_week,
+                    wmi.meal_type,
+                    r.recipe_id,
+                    r.recipe_code,
+                    MAX(CASE
+                        WHEN rt.language_code = 'en'
+                        THEN rt.recipe_name
+                    END) AS recipe_name_en,
+                    MAX(CASE
+                        WHEN rt.language_code = 'hy'
+                        THEN rt.recipe_name
+                    END) AS recipe_name_hy
+                FROM weekly_menu_items AS wmi
+                JOIN recipes AS r
+                    ON r.recipe_id = wmi.recipe_id
+                LEFT JOIN recipe_translations AS rt
+                    ON rt.recipe_id = r.recipe_id
+                WHERE wmi.weekly_menu_id = %s
+                GROUP BY
+                    wmi.weekly_menu_item_id,
+                    wmi.day_of_week,
+                    wmi.meal_type,
+                    r.recipe_id,
+                    r.recipe_code
+                ORDER BY
+                    wmi.weekly_menu_item_id;
+            """, (weekly_menu_id,))
+
+            meal_rows = cur.fetchall()
+
+    meals = [
+        {
+            "day": row[0],
+            "meal_type": row[1],
+            "recipe_id": row[2],
+            "recipe_code": row[3],
+            "recipe_name_en": row[4],
+            "recipe_name_hy": row[5],
+        }
+        for row in meal_rows
+    ]
+
+    return {
+        "weekly_menu_id": weekly_menu[0],
+        "week_start_date": weekly_menu[1],
+        "servings": weekly_menu[2],
+        "created_at": weekly_menu[3],
+        "meals": meals,
     }

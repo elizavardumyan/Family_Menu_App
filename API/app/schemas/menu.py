@@ -1,3 +1,5 @@
+from datetime import date
+
 from pydantic import BaseModel
 
 
@@ -10,5 +12,6 @@ class DayMenu(BaseModel):
 
 
 class WeeklyMenuRequest(BaseModel):
+    week_start_date: date
     servings: int = 5
     days: list[DayMenu]
