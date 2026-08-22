@@ -399,3 +399,55 @@ def delete_weekly_menu(weekly_menu_id: int):
     return {
         "message": f"Weekly menu {weekly_menu_id} deleted successfully"
     }
+
+@router.get("/{weekly_menu_id}/shopping-list")
+def get_weekly_menu_shopping_list(weekly_menu_id: int):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+
+            # 1. Get servings for the saved weekly menu
+            cur.execute("""
+                SELECT servings
+                FROM weekly_menus
+                WHERE weekly_menu_id = %s;
+            """, (weekly_menu_id,))
+
+            weekly_menu = cur.fetchone()
+
+            if weekly_menu is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Weekly menu {weekly_menu_id} not found",
+                )
+
+            servings = weekly_menu[0]
+
+            # 2. Get recipe IDs used in this weekly menu
+            cur.execute("""
+                SELECT recipe_id
+                FROM weekly_menu_items
+                WHERE weekly_menu_id = %s;
+            """, (weekly_menu_id,))
+
+            recipe_rows = cur.fetchall()
+
+    recipe_counts = {}
+
+    for row in recipe_rows:
+        recipe_id = row[0]
+
+        recipe_counts[recipe_id] = (
+            recipe_counts.get(recipe_id, 0) + 1
+        )
+
+    shopping_list = build_shopping_list(
+        recipe_counts,
+        servings,
+    )
+
+    return {
+        "weekly_menu_id": weekly_menu_id,
+        "servings": servings,
+        "shopping_list": shopping_list["items"],
+        "total_cost": shopping_list["total_cost"],
+    }
