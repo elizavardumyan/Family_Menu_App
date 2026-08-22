@@ -204,3 +204,29 @@ def get_weekly_menu(weekly_menu_id: int):
         "created_at": weekly_menu[3],
         "meals": meals,
     }
+    
+@router.get("")
+def get_weekly_menus():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT
+                    weekly_menu_id,
+                    week_start_date,
+                    servings,
+                    created_at
+                FROM weekly_menus
+                ORDER BY week_start_date DESC;
+            """)
+
+            rows = cur.fetchall()
+
+    return [
+        {
+            "weekly_menu_id": row[0],
+            "week_start_date": row[1],
+            "servings": row[2],
+            "created_at": row[3],
+        }
+        for row in rows
+    ]
