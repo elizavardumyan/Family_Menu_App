@@ -15,3 +15,8 @@ class WeeklyMenuRequest(BaseModel):
     week_start_date: date
     servings: int = 5
     days: list[DayMenu]
+    
+class WeeklyMenuUpdateRequest(BaseModel):
+    week_start_date: date
+    servings: int = 5
+    days: list[DayMenu]
