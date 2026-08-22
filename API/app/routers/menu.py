@@ -370,3 +370,32 @@ def update_weekly_menu(
         "shopping_list": shopping_list["items"],
         "total_cost": shopping_list["total_cost"],
     }
+@router.delete("/{weekly_menu_id}")
+def delete_weekly_menu(weekly_menu_id: int):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+
+            # Check whether the menu exists
+            cur.execute("""
+                SELECT weekly_menu_id
+                FROM weekly_menus
+                WHERE weekly_menu_id = %s;
+            """, (weekly_menu_id,))
+
+            weekly_menu = cur.fetchone()
+
+            if weekly_menu is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Weekly menu {weekly_menu_id} not found",
+                )
+
+            # Delete the weekly menu
+            cur.execute("""
+                DELETE FROM weekly_menus
+                WHERE weekly_menu_id = %s;
+            """, (weekly_menu_id,))
+
+    return {
+        "message": f"Weekly menu {weekly_menu_id} deleted successfully"
+    }
